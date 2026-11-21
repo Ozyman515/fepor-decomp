@@ -1221,24 +1221,21 @@ after_xform:
     fn_802029C4(result, out, out);
 }
 #pragma opt_common_subs reset
+static inline void *GActor_FindNode_Model(void *p) {
+    for (; p; p = M2C_FIELD(p, void **, 4)) {
+        void *v = M2C_FIELD(p, void **, 0x40);
+        if (v) return v;
+    }
+    return 0;
+}
+
 s32 GActor_FindNode(void *arg0, void *name) {
     u8 Str_MatchUnderscoreTag(void *, void *);
     void *node;
     void *entry;
     s32 i;
-    void *cur;
 
-    cur = arg0;
-    while (cur != NULL) {
-        node = *(void **)((u8 *)cur + 0x40);
-        if (node == NULL) {
-            cur = *(void **)((u8 *)cur + 4);
-            continue;
-        }
-        goto search;
-    }
-    node = NULL;
-search:
+    node = GActor_FindNode_Model(arg0);
     entry = *(void **)((u8 *)node + 0xC);
     for (i = 0; i < *(s32 *)((u8 *)node + 8); i++, entry = (void *)((u8 *)entry + 0xF4)) {
         if (*(u32 *)((u8 *)entry + 0xC) & 0x80000000U) {
