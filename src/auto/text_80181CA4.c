@@ -1484,13 +1484,10 @@ void fn_80182FC4(void *arg0) {
     tilePtr = (s8 *)(mapHi + x);
     tilePtr = (s8 *)((u8 *)tilePtr + (y << 6));
     tile = *(tilePtr -= 0x1E72);
-    if (tile == 0) {
-        mapVal = ((s16 *)(mapBase + 0x610E))[x + (y << 6)];
-        if (mapVal < 0) {
-            coords = *(u8 **)((u8 *)arg0 + 0x30);
-            coords[0] = 0;
-            goto after_coords;
-        }
+    if (tile != 0 || (mapVal = ((s16 *)(mapBase + 0x610E))[x + (y << 6)]) < 0) {
+        coords = *(u8 **)((u8 *)arg0 + 0x30);
+        coords[0] = 0;
+        goto after_coords;
     }
     coords = *(u8 **)((u8 *)arg0 + 0x30);
     coords[0] = 3;
