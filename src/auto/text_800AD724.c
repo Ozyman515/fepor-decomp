@@ -7638,28 +7638,23 @@ s32 fn_800BDB9C(s32 arg0, s32 arg1) {
     return (p[0x300] & (1U << bit)) != 0;
 }
 
+static inline s32 EventFlag_Find(s32 base, s32 name) {
+    u32 hash = fn_8000D598(name);
+    s32 walk = base;
+    s32 i = 0;
+    do {
+        if (hash == *(u32 *)(walk + 0x180) && Str_Cmp(*(s32 *)walk, name) == 0) return i;
+        i++;
+        walk += 4;
+    } while (i < 0x60);
+    return -1;
+}
 #pragma use_lmw_stmw on
 void EventFlag_Clear(s32 arg0, s32 arg1) {
     s32 i;
-    u32 hash;
     s32 p;
-    s32 walk;
 
-    hash = fn_8000D598(arg1);
-    walk = arg0;
-    i = 0;
-    for (;;) {
-        if (hash != *(u32 *)(walk + 0x180)) goto next;
-        if (Str_Cmp(*(s32 *)walk, arg1) != 0) goto next;
-        goto found;
-    next:
-        ++i;
-        walk += 4;
-        if (i < 0x60) continue;
-        i = -1;
-        break;
-    }
-found:
+    i = EventFlag_Find(arg0, arg1);
     if (i >= 0) {
         p = arg0 + (i >> 3);
         *(u8 *)(p + 0x300) = *(u8 *)(p + 0x300) & ~(1 << (i & 7));
