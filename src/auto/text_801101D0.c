@@ -5859,8 +5859,10 @@ extern "C" s32 fn_8011B78C(void *arg0, void *arg1) {
     u32 buttons;
     void *unit;
     u8 flag;
+    u8 *ids;
 
-    unit = GfxEnt_Get(M2C_FIELD(arg1, u8 *, (s8) M2C_FIELD(arg1, u8 *, 0x62) + 0x40));
+    ids = (u8 *)arg1 + 0x40;
+    unit = GfxEnt_Get(ids[M2C_FIELD(arg1, s8 *, 0x62)]);
     flag = 0;
     if ((gUiInputFlags & 0x10) && !(gUiInputFlags & 0x20)) {
         flag = 1;
