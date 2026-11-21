@@ -646,21 +646,16 @@ s32 fn_8020C118(u32 command, void *callback)
 BOOL fn_8020C1A4(s32 arg0, u32 arg1, void *callback) {
     extern void *Callback_80368538;
     u32 timeout;
-    u32 cmd;
 
     Callback_80368538 = callback;
     StopAtNextInt_80368530 = 0;
 
-    if (arg0 != 0) {
-        cmd = 0x10000;
-        cmd |= 0xE4000000;
-        __DIRegs[2] = arg1 | cmd;
-        __DIRegs[7] = 1;
+    __DIRegs[2] = 0xE4000000 | (arg0 ? 0x10000 : 0) | arg1;
+    __DIRegs[7] = 1;
 
-        timeout = (*(u32 *)0x800000F8 >> 2) * 10;
-        OSCreateAlarm(AlarmForTimeout_80339ED8);
-        OSSetAlarm(AlarmForTimeout_80339ED8, (s64)timeout, AlarmHandlerForTimeout);
-    }
+    timeout = (*(u32 *)0x800000F8 >> 2) * 10;
+    OSCreateAlarm(AlarmForTimeout_80339ED8);
+    OSSetAlarm(AlarmForTimeout_80339ED8, (s64)timeout, AlarmHandlerForTimeout);
 
     return TRUE;
 }
