@@ -18364,34 +18364,31 @@ void fn_800E8CEC(void *arg0) {
 
     if (*(s32 *)(self + 0x160) != 0) {
         Vec3Interp_Update(self + 0x134);
+        fn_800DF41C(
+            self + 0x134,
+            (f32 *)(self + 0xF0),
+            (f32 *)(self + 0xF4),
+            *(f32 *)(self + 0xF8)
+        );
     }
-
-    fn_800DF41C(
-        self + 0x134,
-        (f32 *)(self + 0xF0),
-        (f32 *)(self + 0xF4),
-        *(f32 *)(self + 0xF8)
-    );
 
     if (*(s32 *)(self + 0x1C0) != 0) {
         Vec3Interp_Update(self + 0x194);
+        fn_800DF41C(
+            self + 0x194,
+            (f32 *)(self + 0x54),
+            (f32 *)(self + 0x58),
+            *(f32 *)(self + 0x5C)
+        );
     }
-
-    fn_800DF41C(
-        self + 0x194,
-        (f32 *)(self + 0x54),
-        (f32 *)(self + 0x58),
-        *(f32 *)(self + 0x5C)
-    );
 
     if (*(s32 *)(self + 0x280) != 0) {
         Vec3Interp_Update(self + 0x254);
+        fn_800DF410(
+            (f32 *)(self + 0x254),
+            (f32 *)(self + 0x104)
+        );
     }
-
-    fn_800DF410(
-        (f32 *)(self + 0x254),
-        (f32 *)(self + 0x104)
-    );
 }
 
 void fn_800E8DF0(void *arg0, f32 *arg1, f32 arg2) {
