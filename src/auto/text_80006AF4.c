@@ -2166,15 +2166,14 @@ void fn_8000A860(void) {
     Prim2D_PrepareTex();
 
     for (i = 0; i < 8; i++) {
-        if (lbl_802ADADC[i] == 0) {
-            break;
-        }
-        sp8 = lbl_80368BC8;
-        fn_8014BB58(0, spC << 3, &sp8, lbl_802838C8[i]);
-        {
-            s32 old = spC;
-            spC = old + 1;
-            fn_8000A454(lbl_802ADADC[i], &sp10, &spC, old);
+        if (lbl_802ADADC[i] != 0) {
+            sp8 = lbl_80368BC8;
+            fn_8014BB58(0, spC << 3, &sp8, lbl_802838C8[i]);
+            {
+                s32 old = spC;
+                spC = old + 1;
+                fn_8000A454(lbl_802ADADC[i], &sp10, &spC, old);
+            }
         }
     }
 }
