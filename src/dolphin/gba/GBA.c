@@ -805,8 +805,7 @@ void fn_80265A94(s32 arg0, s32 arg1)
     entry = lbl_803669A0 + (arg0 << 8);
     queue = entry + 0x40;
     if (result == 0) {
-        if (*(u8 *)*(u32 *)(queue + 0x10) == lbl_802A4DE8[0x25]) goto done;
-        result = 3;
+        if (*(u8 *)*(u32 *)(queue + 0x10) != lbl_802A4DE8[0x25]) result = 3;
     }
     if (result == 0) {
         if ((result = fn_80265544(arg0, *(void **)(queue + 0x10), fn_80265B64)) == 0) goto done;
