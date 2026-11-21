@@ -366,13 +366,13 @@ void fn_802665F8(s32 arg0, s32 arg1)
         } else {
             result = fn_80266904(arg0, q + 0x18, *(void **)(q + 0x10), fn_802666F4);
         }
-        if (result != 0) {
-            *(u32 *)(q + 0x2C) = 0;
-            *(u32 *)(q + 0x28) = 0;
-            if ((cb = *(void (**)(s32, s32))(q + 0x14)) != 0) {
-                *(u32 *)(q + 0x14) = 0;
-                (*cb)(arg0, result);
-            }
+    }
+    if (result != 0) {
+        *(u32 *)(q + 0x2C) = 0;
+        *(u32 *)(q + 0x28) = 0;
+        if ((cb = *(void (**)(s32, s32))(q + 0x14)) != 0) {
+            *(u32 *)(q + 0x14) = 0;
+            (*cb)(arg0, result);
         }
     }
     *(s32 *)(base + 0x20) = result;
