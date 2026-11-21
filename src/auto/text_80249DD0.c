@@ -5024,7 +5024,7 @@ void fn_80253E90(u8 *self, u32 *arg1) {
   midByte = (word >> 8) & 255;
   nonzero = hiByte != 0;
   if (midByte == 0)
-    goto tail;
+    return;
   i = 0;
   sd = gSoundData;
   for (; i < sd[0x210]; offset += 0x458, i++) {
@@ -5040,7 +5040,6 @@ void fn_80253E90(u8 *self, u32 *arg1) {
     else
       fn_80256FF0(i);
   }
-tail:
   self[0x106] = midByte;
 }
 
