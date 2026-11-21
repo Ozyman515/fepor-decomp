@@ -7663,33 +7663,18 @@ void EventFlag_Clear(s32 arg0, s32 arg1) {
 
 #pragma dont_inline on
 #pragma use_lmw_stmw on
-#pragma optimization_level 3
+#pragma dont_inline off
 void fn_800BDC68(void *arg0, void *arg1) {
-    s32 var_r30;
-    u32 temp_r31;
-    s32 temp_r5;
-    s32 var_r29;
-    s32 a1 = (s32)arg1;
-    s32 a0 = (s32)arg0;
+    s32 i;
+    s32 p;
 
-    temp_r31 = fn_8000D598(a1);
-    var_r29 = a0;
-    var_r30 = 0;
-loop_1:
-    if (!(temp_r31 == *(u32 *)(var_r29 + 0x180) && Str_Cmp(*(s32 *)var_r29, a1) == 0)) {
-        var_r30 += 1;
-        var_r29 += 4;
-        if (var_r30 < 0x60) {
-            goto loop_1;
-        }
-        var_r30 = -1;
-    }
-    if (var_r30 >= 0) {
-        temp_r5 = a0 + (var_r30 >> 3);
-        *(u8 *)(temp_r5 + 0x300) = *(u8 *)(temp_r5 + 0x300) | (1 << (var_r30 & 7));
+    i = EventFlag_Find((s32)arg0, (s32)arg1);
+    if (i >= 0) {
+        p = (s32)arg0 + (i >> 3);
+        *(u8 *)(p + 0x300) = *(u8 *)(p + 0x300) | (1 << (i & 7));
     }
 }
-#pragma optimization_level reset
+#pragma dont_inline reset
 s32 EventFlag_IsSet(s32 arg0, s32 arg1) {
  s32 i; u32 hash; s32 row; u8 *p;
  if (*(s8 *)arg1 == 0) return 0;
