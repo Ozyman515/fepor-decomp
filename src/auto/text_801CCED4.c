@@ -7149,30 +7149,22 @@ s32 fn_801DBFF8(void)
   return count;
 }
 
-void *fn_801DC070(void *arg0)
-{
+static inline u8 *fn_801DC070_GetType2(void *id) {
     extern u8 gSaveDataBase;
     void *fn_801E2324(void *, void *);
+    u8 *r = (u8 *)fn_801E2324(&gSaveDataBase, id);
+    if (r != NULL && r[0x60] == 2) return r;
+    return NULL;
+}
+
+void *fn_801DC070(void *arg0)
+{
     u8 *result;
 
-    result = (u8 *)fn_801E2324(&gSaveDataBase, arg0);
-    if (result == NULL) {
-        goto clear1;
+    result = fn_801DC070_GetType2(arg0);
+    if (result != NULL && result[0x64] != 0x20) {
+        result = NULL;
     }
-    if (result[0x60] == 2) {
-        goto after1;
-    }
-clear1:
-    result = NULL;
-after1:
-    if (result == NULL) {
-        goto done;
-    }
-    if (result[0x64] == 0x20) {
-        goto done;
-    }
-    result = NULL;
-done:
     return result;
 }
 
