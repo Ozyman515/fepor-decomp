@@ -1457,13 +1457,13 @@ void fn_80185A64(void *arg0) {
         obj = *(void **)((u8 *)arg0 + 0x30);
         if (fn_800504FC(obj, 0xA) != 0) {
             fn_8004FC70(*(void **)((u8 *)arg0 + 0x30), 0xA);
-            flags = (u8 *)*(void **)((u8 *)arg0 + 0x30) + 3;
-            *flags |= 4;
-            fn_8004F5EC(*(void **)((u8 *)arg0 + 0x30), 0);
-            flags = (u8 *)*(void **)((u8 *)arg0 + 0x30) + 3;
-            *flags &= 0xFFFFFFFB;
         }
     }
+    flags = (u8 *)*(void **)((u8 *)arg0 + 0x30) + 3;
+    *flags |= 4;
+    fn_8004F5EC(*(void **)((u8 *)arg0 + 0x30), 0);
+    flags = (u8 *)*(void **)((u8 *)arg0 + 0x30) + 3;
+    *flags &= 0xFFFFFFFB;
 }
 
 void fn_80185AF4(void *arg0) {
