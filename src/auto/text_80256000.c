@@ -7551,9 +7551,9 @@ s32 fn_80263534(void)
     lbl_80368B08 = zero;
     Audio_Unlock();
 
-    if (lbl_80368B08) {
-        Audio_Lock();
+    while (*(volatile u32 *)&lbl_80368B08 == 0) {
     }
+    Audio_Lock();
 
     return 1;
 }
