@@ -521,20 +521,21 @@ s32 fn_80093010(void *arg0, void *arg1)
     return -1;
 }
 
+void *Unit_GetHeldItemSlot(void *, s32);
+static inline s32 fn_80093088_FindEmptyHeld(void *unit) {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        if (*(u32 *)Unit_GetHeldItemSlot(unit, i) == 0) return i;
+    }
+    return -1;
+}
+
 s32 fn_80093088(void *arg0) {
-    void *Unit_GetHeldItemSlot(void *, s32);
-    s32 i = 0;
+    s32 i;
     s32 r;
     u8 ok;
 
-    do {
-        if (*(u32 *)Unit_GetHeldItemSlot(arg0, i) != 0) goto inc;
-        goto found;
-inc:
-        i++;
-    } while (i < 4);
-    i = -1;
-found:
+    i = fn_80093088_FindEmptyHeld(arg0);
     r = i == 0;
     ok = r;
     if (ok) {
