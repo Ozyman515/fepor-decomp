@@ -623,33 +623,47 @@ void OSCreateAlarm(void *arg0) {
     M2C_FIELD(arg0, s32 *, 4) = 0;
 }
 
+struct InsertAlarm_OSAlarm {
+    void (*handler)(void *, OSContext *);
+    u32 tag;
+    s64 fire;
+    struct InsertAlarm_OSAlarm *prev;
+    struct InsertAlarm_OSAlarm *next;
+    s64 period;
+    s64 start;
+};
+
+static inline void InsertAlarm_SetTimer(struct InsertAlarm_OSAlarm *alarm) {
+    extern s64 __OSGetSystemTime(void);
+    extern void PPCMtdec(u32);
+    s64 delta;
+
+    delta = alarm->fire - __OSGetSystemTime();
+    if (delta < 0) {
+        PPCMtdec(0);
+    } else if (delta < 0x80000000LL) {
+        PPCMtdec((u32)delta);
+    } else {
+        PPCMtdec(0x7FFFFFFF);
+    }
+}
+
 #pragma use_lmw_stmw on
 void InsertAlarm(void *alarm_p, s64 fire, void (*handler)(void *, OSContext *)) {
     struct AlarmQueue {
-        struct OSAlarm *head;
-        struct OSAlarm *tail;
-    };
-    struct OSAlarm {
-        void (*handler)(void *, OSContext *);
-        u32 tag;
-        s64 fire;
-        struct OSAlarm *prev;
-        struct OSAlarm *next;
-        s64 period;
-        s64 start;
+        struct InsertAlarm_OSAlarm *head;
+        struct InsertAlarm_OSAlarm *tail;
     };
     extern struct AlarmQueue AlarmQueue_80368490;
     extern s64 __OSGetSystemTime(void);
-    extern void PPCMtdec(u32);
-    struct OSAlarm *next;
-    struct OSAlarm *prev;
+    struct InsertAlarm_OSAlarm *next;
+    struct InsertAlarm_OSAlarm *prev;
     s64 time;
-    s64 new_var[2];
     s32 zg;
-    struct OSAlarm *alarm;
+    struct InsertAlarm_OSAlarm *alarm;
 
     zg = 0;
-    alarm = (struct OSAlarm *)alarm_p;
+    alarm = (struct InsertAlarm_OSAlarm *)alarm_p;
     if (zg < alarm->period) {
         time = __OSGetSystemTime();
         fire = alarm->start;
@@ -672,16 +686,7 @@ void InsertAlarm(void *alarm_p, s64 fire, void (*handler)(void *, OSContext *)) 
                 return;
             }
             AlarmQueue_80368490.head = alarm;
-            time = __OSGetSystemTime();
-            new_var[0] = alarm->fire - time;
-            new_var[1] = (u32)new_var[0];
-            if (new_var[0] < 0) {
-                PPCMtdec(0);
-            } else if (new_var[0] < 0x80000000LL) {
-                PPCMtdec(new_var[1]);
-            } else {
-                PPCMtdec(0x7FFFFFFF);
-            }
+            InsertAlarm_SetTimer(alarm);
             return;
         }
     }
@@ -696,16 +701,7 @@ void InsertAlarm(void *alarm_p, s64 fire, void (*handler)(void *, OSContext *)) 
     }
     AlarmQueue_80368490.tail = alarm;
     AlarmQueue_80368490.head = alarm;
-    time = __OSGetSystemTime();
-    new_var[0] = alarm->fire - time;
-    new_var[1] = (u32)new_var[0];
-    if (new_var[0] < 0) {
-        PPCMtdec(0);
-    } else if (new_var[0] < 0x80000000LL) {
-        PPCMtdec(new_var[1]);
-    } else {
-        PPCMtdec(0x7FFFFFFF);
-    }
+    InsertAlarm_SetTimer(alarm);
 }
 
 #pragma use_lmw_stmw on
