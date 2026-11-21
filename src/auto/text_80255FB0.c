@@ -556,46 +556,24 @@ void Sound_DeactivateSynthVoice(void *arg0);
 #pragma opt_peephole off
 
 #pragma scheduling off
+extern VidList *vidListRoot;
+static inline VidList *get_vidlist(u32 vid) {
+  VidList *vl = vidListRoot;
+  while (vl != NULL) {
+    if (vl->vid == vid) return vl;
+    if (vl->vid > vid) break;
+    vl = vl->next;
+  }
+  return NULL;
+}
+
 s32 Sound_LookupVid(u32 arg0)
 {
-  u32 new_var;
-  extern VidList *vidListRoot;
   VidList *vl;
-  if (((u32) (arg0 + 0x10000)) != 0xFFFFU)
-  {
-    vl = vidListRoot;
-    goto check;
-    loop:
-    if (vl->vid != arg0)
-    {
-      goto not_eq;
-    }
-
-    new_var = vl->vid;
-    goto done;
-    not_eq:
-    if (new_var > arg0)
-    {
-      goto set_null;
-    }
-
-    vl = vl->next;
-    check:
-    if (vl != NULL)
-    {
-      goto loop;
-    }
-
-    set_null:
-    vl = NULL;
-
-    done:
-    if (vl != NULL)
-    {
+  if (arg0 != 0xFFFFFFFF) {
+    if ((vl = get_vidlist(arg0)) != NULL) {
       return (s32) vl->root;
     }
-
   }
   return -1;
 }
-#pragma scheduling reset
