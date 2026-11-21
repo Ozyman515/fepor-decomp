@@ -10479,9 +10479,9 @@ void fn_800DB58C(void *arg0) {
     if (lbl_80369E70 == *(f32 *)(p + 0xA4)) {
         s32 n = *(s32 *)(p + 0x9C) - 1;
         *(s32 *)(p + 0x9C) = n;
-        if (*(s32 *)(p + 0x9C) <= 0) {
-            *(s32 *)(p + 0x9C) = 0;
-        }
+    }
+    if (*(s32 *)(p + 0x9C) <= 0) {
+        *(s32 *)(p + 0x9C) = 0;
     }
 }
 #pragma optimization_level reset
