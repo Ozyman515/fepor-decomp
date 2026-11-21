@@ -7,10 +7,11 @@ void fn_800056A0(s8 arg0) {
 }
 
 void fn_800056AC(void) {
-    extern s16 *lbl_80367100;
-    
-    lbl_80367100[0x10/2] = (s16)(lbl_80367100[0xE/2] - 0x10);
-    *(u8*)&lbl_80367100[0x18/2] = (u8)0;
+    extern void *lbl_80367100;
+    s16 *p = (s16 *)lbl_80367100;
+
+    p[0x10/2] = (s16)(p[0xE/2] - 0x10);
+    *(u8*)&p[0x18/2] = (u8)0;
 }
 
 s32 DebugPrint(const char *fmt, ...) {
@@ -237,7 +238,6 @@ void fn_80005C18(void) {
 }
 
 void fn_80005C40(void) {
-    M2C_UNK fn_801047D0();
     fn_801047D0();
 }
 
@@ -308,7 +308,7 @@ void Game_InitSystems(void) {
 }
 
 void fn_80005D88(void) {
-    extern u16 gBattleState[];
+    extern u8 gBattleState[];
     void *temp_r31;
 
     temp_r31 = (u16 *)gBattleState + 0x9C / sizeof(u16);
@@ -357,7 +357,7 @@ void fn_80005EB4(void) {
 }
 
 void fn_80005ED4(void) {
-    extern u16 Game_str[];
+    extern u8 Game_str[];
     Heap_Create((u8 *)Game_str + 0xDF, 0xB00000);
 }
 
@@ -479,13 +479,13 @@ void fn_80005F04(void)
 }
 #pragma optimization_level reset
 void fn_800060F8(void) {
-    M2C_UNK Unit_ResetAll();
+    void Unit_ResetAll(void);
     Unit_ResetAll();
 }
 
 void fn_80006118(void)
 {
-  void *Process_Find(void *, void *);
+  void *Process_Find(void *);
   extern u8 gGameProc[];
   extern u8 gSaveDataBase;
   void *temp;
@@ -494,7 +494,7 @@ void fn_80006118(void)
   {
     ret = &gSaveDataBase;
     temp = *((void **) (((u8 *) ret) + 4));
-    ret = Process_Find(gGameProc, ret);
+    ret = ((void *(*)(void *, void *))Process_Find)(gGameProc, ret);
     *(((u8 *) temp) + 0x64) = *((u32 *) (((u8 *) ret) + 0x64));
   }
   *(((u8 *) temp) + 0x65) = 0xA;
@@ -502,8 +502,8 @@ void fn_80006118(void)
 
 void fn_80006160(s32 arg0)
 {
-    extern u16 gGameProc[];
-    void *Process_Find(u16 *);
+    extern u8 gGameProc[];
+    void *Process_Find(void *);
     s32 *obj;
 
     obj = (s32 *)Process_Find(gGameProc);
@@ -511,8 +511,8 @@ void fn_80006160(s32 arg0)
 }
 
 void fn_80006198(void) {
-    extern u16 gGameProc[];
-    void *Process_Find(u16 *);
+    extern u8 gGameProc[];
+    void *Process_Find(void *);
     void Process_Goto(void *, u8);
     void *arg0 = Process_Find(gGameProc);
     Process_Goto(arg0, (u8)*(u32 *)((u8 *)arg0 + 0x60));
@@ -524,21 +524,20 @@ void fn_800061CC(void *arg0) {
 }
 
 s32 Game_GetState(void) {
-    extern u16 gGameProc[];
-    void *Process_Find(u16 *);
+    extern u8 gGameProc[];
+    void *Process_Find(void *);
     void *arg0 = Process_Find(gGameProc);
     return *(u32 *)((u8 *)arg0 + 0x60);
 }
 
 void Game_SetState(s32 arg0) {
-    extern u16 gGameProc[];
-    void *Process_Find(u16 *);
+    extern u8 gGameProc[];
+    void *Process_Find(void *);
     s32 *obj;
     obj = (s32 *)Process_Find(gGameProc);
     obj[0x60 / 4] = arg0;
 }
 #include <common.h>
-extern u8 gSaveDataBase[8];
 extern u32 jumptable_80283748[];
 extern u8 gBattleState[1400];
 extern u8 gGameProc[1100];
