@@ -7583,11 +7583,10 @@ void fn_80263608(s32 arg0)
     PPCSync();
 
     fn_80215F78((u32)lbl_80368A84 | 0xBABE0000);
-    if (fn_80215F40() == 0) {
-        fn_80215F78(aux);
-        if (fn_80215F40() != 0) {
-            return;
-        }
+    while (fn_80215F40() != 0) {
+    }
+    fn_80215F78(aux);
+    while (fn_80215F40() != 0) {
     }
 }
 #pragma peephole on
