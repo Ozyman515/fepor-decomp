@@ -490,15 +490,13 @@ u8 fn_80096C78(s32 arg0)
 {
   extern u8 gBattle[];
   s16 saved;
-  unsigned char new_var;
   s16 *idx;
   s32 count;
-  new_var = ((s16) arg0) + 1;
   count = 0;
   idx = (s16 *) (gBattle + 0x8A0);
   saved = *idx;
   *idx = (s16) arg0;
-  *idx = (s16) new_var;
+  (*idx)++;
   for (;;)
   {
     switch (((u8 *) idx)[((*idx) * 4) + 4])
