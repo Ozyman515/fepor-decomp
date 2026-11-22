@@ -25106,10 +25106,14 @@ s32 fn_800F73EC(void *arg0, void *arg1, void **arg2) {
         tempMin = 0;
     }
     minRange = (u8)tempMin;
-    if (*arg2 != NULL) {
-        maxRange = (u8)Item_GetRangeForUnit(*arg2, arg0);
-    } else {
-        maxRange = (u8)0;
+    {
+        s32 t;
+        if (*arg2 != NULL) {
+            t = Item_GetRangeForUnit(*arg2, arg0);
+        } else {
+            t = 0;
+        }
+        maxRange = (u8)t;
     }
     return ((s32)minRange <= dist && dist <= maxRange);
 }
