@@ -21063,7 +21063,7 @@ void fn_800ED960(void *self) {
     void *String_Destroy(void *, s32);
     void sprintf(char *, char *, ...);
     extern char Win3_str[];
-    char buf[0x18];
+    char buf[0x10];
     u8 str1[0xC];
     u8 str2[0xC];
     u8 str3[0xC];
