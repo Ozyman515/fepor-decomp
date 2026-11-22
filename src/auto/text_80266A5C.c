@@ -342,8 +342,7 @@ void fn_80266A5C(s32 arg0, s32 arg1, void *arg2)
             *(s32 *)(entry + 0x20) = 0;
         }
 
-        cb = *(void (**)(s32))(entry + 0x38);
-        if (cb) {
+        if ((cb = *(void (**)(s32))(entry + 0x38)) != 0) {
             *(u32 *)(entry + 0x38) = 0;
             cb(arg0);
         }
