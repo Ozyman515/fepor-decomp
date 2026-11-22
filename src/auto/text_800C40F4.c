@@ -29542,26 +29542,6 @@ void fn_800FE590(s32 arg0, s32 arg1, u8 *unit, s32 arg3, s32 arg4)
 
 #pragma use_lmw_stmw reset
 
-#pragma optimization_level 2
-void fn_800FE690(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5) {
-    void Map_SelectRangeBuffer(void *, s32);
-    void fn_800227F8(void *, void *);
-    void fn_80022748(void *, s32);
-    u8 fn_80105BC0(void *, s32);
-    void fn_800213D0(void *, s8, s8, u16, s32, s32);
-    extern u8 lbl_802CA518[];
-
-    void *map;
-
-    map = lbl_802CA518;
-    Map_SelectRangeBuffer(map, arg4);
-    fn_800227F8(lbl_802CA518, arg2);
-    fn_80022748(lbl_802CA518, arg3);
-    fn_800213D0(map, (s8)arg0, (s8)arg1, (u16)arg5,
-        arg2 ? (fn_80105BC0((u8 *)arg2 + 0x1C, 0x15) != 0) : 0,
-        arg2 ? (fn_80105BC0((u8 *)arg2 + 0x1C, 0x14) != 0) : 1);
-}
-#pragma optimization_level reset
 static inline s32 fn_800FE770_Has(void *obj, s32 id, s32 def) {
     u8 Status_Test(void *, s32);
     if (obj != NULL) {
@@ -29569,6 +29549,24 @@ static inline s32 fn_800FE770_Has(void *obj, s32 id, s32 def) {
     }
     return def;
 }
+#pragma optimization_level 2
+void fn_800FE690(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5) {
+    void Map_SelectRangeBuffer(void *, s32);
+    void fn_800227F8(void *, void *);
+    void fn_80022748(void *, s32);
+    void Map_FloodMoveRange(void *, s8, s8, u16, s32, s32);
+    extern u8 gBattleMap[];
+
+    void *map;
+
+    map = gBattleMap;
+    Map_SelectRangeBuffer(map, arg4);
+    fn_800227F8(gBattleMap, arg2);
+    fn_80022748(gBattleMap, arg3);
+    Map_FloodMoveRange(map, (s8)arg0, (s8)arg1, (u16)arg5,
+        fn_800FE770_Has(arg2, 0x14, 1), fn_800FE770_Has(arg2, 0x15, 0));
+}
+#pragma optimization_level reset
 void fn_800FE770(s32 arg0, s32 arg1, void *arg2, s32 arg3, u32 arg4) {
 void Map_FloodMoveRange(void *, s8, s8, u16, s32, s32);
 void fn_80022748(void *, s32);
