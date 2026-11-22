@@ -16606,9 +16606,7 @@ void fn_800E5A4C(void *arg0) {
         e0 = *(void **)((u8 *)arg0 + 0xE0);
         temp_r31 = ((u8 *)e0)[0xB];
         p = (u8 *)Light_GetChannel(0);
-        t2 = p[2];
-        t6 = p[6];
-        alpha = (((p[4] + (t6 + p[5])) / 3) * (0xFF - ((p[0] + (t2 + p[1])) / 3))) / 255;
+        alpha = (((p[4] + p[5] + p[6]) / 3) * (0xFF - ((p[0] + p[1] + p[2]) / 3))) / 255;
         if (alpha < 0) {
             alpha = 0;
         }
