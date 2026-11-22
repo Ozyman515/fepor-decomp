@@ -2705,11 +2705,7 @@ s32 SampleKey_Remove(u16 id) {
     uid = id;
     Audio_Lock();
     count = gSampleKeyCount;
-    {
-        SampleKey *p;
-        p = gSampleKeys;
-        for (i = 0; i < (s32)count && uid != p->id; p++, i++) {
-        }
+    for (i = 0; i < (s32)count && gSampleKeys[i].id != uid; ++i) {
     }
 
     if (i != (s32)count) {
