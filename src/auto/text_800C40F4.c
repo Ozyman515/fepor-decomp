@@ -29562,6 +29562,13 @@ void fn_800FE690(s32 arg0, s32 arg1, void *arg2, s32 arg3, s32 arg4, s32 arg5) {
         arg2 ? (fn_80105BC0((u8 *)arg2 + 0x1C, 0x14) != 0) : 1);
 }
 #pragma optimization_level reset
+static inline s32 fn_800FE770_Has(void *obj, s32 id, s32 def) {
+    u8 Status_Test(void *, s32);
+    if (obj != NULL) {
+        return Status_Test((u8*)obj+0x1C,id) != 0;
+    }
+    return def;
+}
 void fn_800FE770(s32 arg0, s32 arg1, void *arg2, s32 arg3, u32 arg4) {
 void Map_FloodMoveRange(void *, s8, s8, u16, s32, s32);
 void fn_80022748(void *, s32);
@@ -29569,20 +29576,10 @@ void fn_800227F8(void *, void *);
 void Map_SelectRangeBuffer(void *, s32);
 u8 Status_Test(void *, s32);
 extern u8 gBattleMap[];
-u32 flags; s32 y; s32 x; s32 t14; u8 *map; void *obj; s32 t15;
+u32 flags; s32 y; s32 x; u8 *map; void *obj;
 x=arg0; y=arg1; obj=arg2; flags=arg4; map=gBattleMap;
 Map_SelectRangeBuffer(map,arg3); fn_800227F8(map,obj); fn_80022748(map,0);
-if (obj != NULL) {
-    t14 = Status_Test((u8*)obj+0x1C,0x14) != 0;
-} else {
-    t14 = 1;
-}
-if (obj != NULL) {
-    t15 = Status_Test((u8*)obj+0x1C,0x15) != 0;
-} else {
-    t15 = 0;
-}
-Map_FloodMoveRange(map,x,y,flags,t14,t15);
+Map_FloodMoveRange(map,x,y,flags,fn_800FE770_Has(obj,0x14,1),fn_800FE770_Has(obj,0x15,0));
 }
 #pragma optimization_level reset
 u8 Map_IsAiTerrainBlocked(s8 arg0, s8 arg1) {
