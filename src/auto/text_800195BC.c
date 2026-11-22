@@ -1832,18 +1832,19 @@ void fn_8001C7F0(void *unused, void *arg1, void *arg2) {
 void strcpy(void *, s32);
 void strcat(void *, void *);
 void *Res_GetByName(void *);
-extern void *lbl_80367230;
-extern u8 lbl_802CA4FC[], gDataStr[];
+extern void *gItemUfxCache;
+extern u8 gItemUfxPath[], gDataStr[];
 void *obj;
-if(lbl_80367230 != arg1) {
-lbl_80367230=arg1;
-strcpy(lbl_802CA4FC,*(s32 *)arg1);
-strcat(lbl_802CA4FC,gDataStr+0x3C);
+if(gItemUfxCache != arg1) {
+gItemUfxCache=arg1;
+strcpy(gItemUfxPath,*(s32 *)arg1);
+strcat(gItemUfxPath,gDataStr+0x3C);
 }
-obj=Res_GetByName(lbl_802CA4FC);
+obj=Res_GetByName(gItemUfxPath);
 if(obj==0) {
-(*(void (**)(void *))((u8 *)obj+0xC))(arg2);
+obj=0;
 }
+(*(void (**)(void *))((u8 *)obj+0xC))(arg2);
 }
 
 s32 fn_8001C878(void *unused, void *arg1, void *arg2) {
