@@ -9779,29 +9779,20 @@ void fn_800C0EEC(u8 *obj) {
     GXInitTexObjLOD(obj + 0x30, 1, 1, 0, 0, 0, lbl_80369D28, lbl_80369D28, lbl_80369D28);
 }
 
-#pragma optimization_level 3
 void fn_800C0F94(void) {
  void Process_UnlinkByKey(void *);
  void fn_800C4588(void *);
  extern u8 lbl_8028D588[], lbl_8028D560[];
  extern void *gMapBlendBufs[];
- void *zero;
- void **p;
  s32 i;
  Process_UnlinkByKey(lbl_8028D588);
  Process_UnlinkByKey(lbl_8028D560);
- i = 0;
- zero = NULL;
- p = gMapBlendBufs;
- do {
-  fn_800C4588(*p);
-  *p = zero;
-  i += 1;
-  *p = zero;
-  p += 1;
- } while (i < 3);
+ for (i = 0; i < 3; i++) {
+  fn_800C4588(gMapBlendBufs[i]);
+  gMapBlendBufs[i] = NULL;
+  gMapBlendBufs[i] = NULL;
+ }
 }
-#pragma optimization_level reset
 s32 fn_800C1010(void)
 {
   unsigned int new_var;
