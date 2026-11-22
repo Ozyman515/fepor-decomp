@@ -2614,12 +2614,7 @@ s32 AudioBank_Remove(u16 id) {
 
     Audio_Lock();
     count = lbl_80368A0E;
-    {
-        struct AudioBankKey *p;
-        i = 0;
-        p = lbl_8034EEB8;
-        for (; i < (s32)count && id != p->id; p++, i++) {
-        }
+    for (i = 0; i < (s32)count && lbl_8034EEB8[i].id != id; ++i) {
     }
 
     if (i != (s32)count) {
