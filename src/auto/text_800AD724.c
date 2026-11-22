@@ -9853,7 +9853,7 @@ void fn_800C10D4(void *arg0) {
 
     for (index = 1; index <= 0x9F; index++) {
         if ((u8)index != 0) {
-            unit = (u8 *)gUnits + ((u8)(index - 1) * 0x280);
+            unit = (u8 *)gUnits + (((u8)index - 1) * 0x280);
         } else {
             unit = NULL;
         }
