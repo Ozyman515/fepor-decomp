@@ -1396,13 +1396,11 @@ extern "C" void fn_801FF480(void *arg0) {
         virtual void v30();
     };
     s32 sp8;
-    s16 temp_r31;
     Obj *self = (Obj *)arg0;
 
     self->v30();
     sp8 = lbl_8036BB50;
-    temp_r31 = self->v19();
-    fn_801FE84C(0, 0, self->v18(), temp_r31, &sp8);
+    fn_801FE84C(0, 0, self->v18(), self->v19(), &sp8);
 }
 
 extern "C" void fn_801FF50C(void *arg0) {
