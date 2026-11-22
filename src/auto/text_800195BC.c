@@ -1863,13 +1863,15 @@ s32 fn_8001C878(void *unused, void *arg1, void *arg2) {
         strcat(gItemUfxPath, gDataStr + 0x3C);
     }
     obj = Res_GetByName(gItemUfxPath);
-    if (obj != 0) goto ret1;
+    if (obj != 0) {
+    } else {
+        obj = 0;
+    }
     p = (void **)obj;
-    if (p[2] == 0) goto ret0;
-    ((void (*)(void *))p[2])(arg2);
-ret1:
-    return 1;
-ret0:
+    if (p[2] != 0) {
+        ((void (*)(void *))p[2])(arg2);
+        return 1;
+    }
     return 0;
 }
 
