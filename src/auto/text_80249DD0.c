@@ -2545,7 +2545,7 @@ found4:
     Audio_Unlock();
 }
 
-#pragma global_optimizer off
+#pragma global_optimizer on
 s32 AudioBank_Insert(u16 id, s32 data) {
     void Audio_Lock(void);
     void Audio_Unlock(void);
@@ -2558,11 +2558,7 @@ s32 AudioBank_Insert(u16 id, s32 data) {
 
     Audio_Lock();
     count = lbl_80368A0E;
-    {
-        AudioTableEntry *p;
-        p = lbl_8034EEB8;
-        for (i = 0; i < (s32)count && p->id < id; p++, i++) {
-        }
+    for (i = 0; i < (s32)count && lbl_8034EEB8[i].id < id; ++i) {
     }
 
     if (i < (s32)count) {
