@@ -626,17 +626,19 @@ void fn_801AF148(void *arg0) {
     }
 }
 
-void fn_801AF1C8(void *arg0) {
+#pragma cplusplus on
+extern "C" void fn_801AF1C8(void *arg0) {
+struct V{virtual void v0();virtual void v1();virtual void v2();virtual void v3();virtual void v4();virtual void v5();virtual void v6();virtual void v7();virtual void v8();};
 void *Ui_FindChild(void *,s32,s32);
 void Ui_SlideWidgetChild(void *,void *,s16 *,s32);
 void Ui_SlideWidgetChildMode1(void *,void *,s16 *,s32);
 void fn_801402A0(void *,void *,s16 *,s32);
 void TalkUi_ShowMsg(s32);
 s16 pos1[2],pos2[2],pos3[2];
+s16 y;
 void *panel;
 void *child;
 void *other;
-s16 y;
 panel=M2C_FIELD(arg0,void **,0x54);
 child=Ui_FindChild(arg0,4,0);
 other=M2C_FIELD(arg0,void **,0x64);
@@ -650,7 +652,7 @@ Ui_SlideWidgetChildMode1(arg0,child,pos2,0);
 M2C_FIELD(child,s16 *,0xE)=M2C_FIELD(child,s16 *,0xA)+0x108;
 M2C_FIELD(child,s16 *,0x4A)=0x14;
 M2C_FIELD(child,s16 *,0x4C)=0;
-M2C_FIELD(M2C_FIELD(child,void **,0),void (**)(void *),0x28)(child);
+((V*)child)->v8();
 M2C_FIELD(child,u8 *,0x48)=1;
 M2C_FIELD(child,u8 *,0x44)=2;
 pos3[0]=M2C_FIELD(other,s16 *,0xA);
@@ -659,6 +661,7 @@ fn_801402A0(arg0,other,pos3,0);
 M2C_FIELD(other,s32 *,0x3C)=0;
 TalkUi_ShowMsg(M2C_FIELD(M2C_FIELD(arg0,void **,0x6C),s32 *,0x34));
 }
+#pragma cplusplus reset
 
 void fn_801AF2E0(void *panel) {
     extern u8 gUiContext[],gBattleState[],gConvoy[];
