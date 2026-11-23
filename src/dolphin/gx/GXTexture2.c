@@ -257,6 +257,7 @@ u32 *tlut;
 u32 *(*callback)(u32);
 u8 *gx;
 u8 *slot;
+u8 pad[0x18]; /* stack space used by the original */
 tex[0]=__rlwimi(tex[0],lbl_80367010[map],24,0,7);
 tex[1]=__rlwimi(tex[1],lbl_80367018[map],24,0,7);
 tex[2]=__rlwimi(tex[2],lbl_80367020[map],24,0,7);
