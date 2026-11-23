@@ -2313,8 +2313,11 @@ extern "C" void fn_8002C3D8(void *arg0, void *arg1) {
     extern u8 gTargetList[];
     void *child;
 
+    u32 side;
+
     child = *(void **)((u8 *)arg0 + 4);
-    if (*(u32 *)((u8 *)arg1 + 0x190) == *(u32 *)((u8 *)child + 0x190)) {
+    side = *(u32 *)((u8 *)child + 0x190);
+    if (*(u32 *)((u8 *)arg1 + 0x190) == side) {
         if (fn_80093088(child) == 0 || fn_80093088(arg1) == 0) {
             fn_8002F6E8(
                 gTargetList,
