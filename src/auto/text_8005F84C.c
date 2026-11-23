@@ -8033,8 +8033,6 @@ void VISetNextFrameBuffer(void *);
 void fn_80211614(s32);
 void VIFlush(void);
 void VIWaitForRetrace(void);
-void *next;
-void *cur;
 if(gDemoStatEnable) fn_8006DFD8();
 else {
 GXSetZMode(1,3,1); fn_8022462C(1); GXCopyDisp(DemoCurrentBuffer,1);
@@ -8045,10 +8043,7 @@ if(lbl_80366DE0) { fn_80211614(0); lbl_80366DE0=0; }
 VIFlush();
 if(gGameFlags&1) { if(!(gGameFlags&4)) VIWaitForRetrace(); gGameFlags &= ~4; }
 VIWaitForRetrace();
-cur=DemoCurrentBuffer;
-next=DemoFrameBuffer1;
-if(cur==next) next=DemoFrameBuffer2;
-DemoCurrentBuffer=next;
+DemoCurrentBuffer = (DemoCurrentBuffer==DemoFrameBuffer1) ? DemoFrameBuffer2 : DemoFrameBuffer1;
 }
 }
 
