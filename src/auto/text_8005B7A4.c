@@ -1564,13 +1564,12 @@ void FileCache_ExpandBuffer(void *a)
     u32 fn_80006AC0(u32);
     u32 fn_800C44F4(s8);
     u32 fn_800C4604(s8, u32, void *, u32);
-    u32 fn_8005E594(s8, u32, void *);
+    u32 fn_8005E594(s32, u32, void *);
     void fn_800065B0(u32, u32, void *, void *);
     s32 strlen(void *);
     extern u8 fn_8005DF60[];
     u32 n;
-    u8 ch_u;
-    s8 ch;
+    s32 ch;
     u32 old;
     s32 len;
     u32 result;
@@ -1578,9 +1577,8 @@ void FileCache_ExpandBuffer(void *a)
     old = *(u32 *)((u8 *)a + 0x38);
     n = fn_80006AC0(old);
     *(u32 *)((u8 *)a + 0x3c) = n;
-    ch_u = *(u8 *)((u8 *)a + 0x29);
+    ch = *(s8 *)((u8 *)a + 0x29);
     n = *(u32 *)((u8 *)a + 0x3c);
-    ch = (s8)ch_u;
     if (fn_800C44F4(ch) < n) {
         result = 0;
     } else {
@@ -1593,7 +1591,7 @@ void FileCache_ExpandBuffer(void *a)
     *(u32 *)((u8 *)a + 0x38) = result;
     if (*(u32 *)((u8 *)a + 0x38) == 0) {
         *(u32 *)((u8 *)a + 0x38) =
-            fn_8005E594(*(u8 *)((u8 *)a + 0x29), *(u32 *)((u8 *)a + 0x3c), a);
+            fn_8005E594(*(s8 *)((u8 *)a + 0x29), *(u32 *)((u8 *)a + 0x3c), a);
     }
     fn_800065B0(old, *(u32 *)((u8 *)a + 0x38), fn_8005DF60, a);
 }
