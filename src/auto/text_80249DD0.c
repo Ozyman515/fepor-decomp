@@ -3069,8 +3069,7 @@ Audio_Unlock();
 return 1;
 }
 } else {
-u8 *found=lbl_803548B8+i*12;
-++*(u16*)(found+4);
+struct E { u16 id, f2, ref, f6; void *data; }; struct E *e = (struct E*)lbl_803548B8; e[i].ref++;
 }
 return 0;
 }
