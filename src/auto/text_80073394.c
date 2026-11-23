@@ -338,14 +338,14 @@ void fn_80073A60(void) {
  void *Item_GetFlagsPtr(void *); void *Unit_GetItemSlot(void *,s32);
  void Item_Clear(void *); void Unit_CompactItems(void *);
  s8 Unit_GetActiveItemSlot(void *); void fn_800951D0(void *,s32); void fn_80094ABC(void *,void *);
- s8 index; void *item; s32 offset;
- index=(s8)gUiContext[10];
+ s32 index; void *item; s32 offset;
+ index=((s8*)gUiContext)[10];
  if(index==4) {
  if(fn_8014D8DC(gBattleState)) Convoy_AddItem(gConvoy,lbl_8036746C);
  } else {
  if(index==4) item=lbl_8036746C;
  else { void *flags=Item_GetFlagsPtr(lbl_8036746C);
- item=Unit_GetItemSlot(lbl_80367468,index+((*(u64 *)flags&5)!=0?0:4)); }
+ offset=((*(u64 *)flags&5)!=0)?0:4; item=Unit_GetItemSlot(lbl_80367468,offset+index); }
  if(fn_8014D8DC(gBattleState)) Convoy_AddItem(gConvoy,item);
  Item_Clear(item);Unit_CompactItems(lbl_80367468);
  if(Unit_GetActiveItemSlot(lbl_80367468)<0) fn_800951D0(lbl_80367468,-1);
