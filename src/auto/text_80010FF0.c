@@ -97,17 +97,13 @@ void fn_80010FF0(void) {
 
 #pragma global_optimizer off
 s32 fn_80011010(s32 arg0) {
-    s32 index;
-    s32 value;
     u32 result;
     s32 fn_8010494C(s32);
 
-    value = arg0;
     if (arg0 == -1) {
-        index = 0;
-        value = lbl_802AEE20[index];
+        arg0 = 0;
     }
-    result = (u32)fn_8010494C(value);
+    result = (u32)fn_8010494C(lbl_802AEE20[arg0]);
     return Text_FindFontIndex((u32 *)lbl_802AEE20, result);
 }
 #pragma global_optimizer on
