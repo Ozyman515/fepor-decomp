@@ -439,13 +439,16 @@ s32 fn_8020CC28(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 state;
     s32 interrupts;
     s32 end;
+    void *block;
     s32 result;
     if (arg3 < 0 || (u32)arg3 > *(u32 *)((u8 *)arg0 + 0x34))
         OSPanic(&lbl_80366F60, 0x334, lbl_8029D01C);
     end = arg3 + arg2;
     if (end < 0 || (u32)end >= *(u32 *)((u8 *)arg0 + 0x34) + 0x20)
         OSPanic(&lbl_80366F60, 0x33A, lbl_8029D01C);
-    if (!DVDReadAbsAsyncPrio(arg0, arg1, arg2, *(u32 *)((u8 *)arg0+0x30)+arg3, fn_8020CD40, arg4))
+    block = arg0;
+    result = DVDReadAbsAsyncPrio(block, arg1, arg2, *(u32 *)((u8 *)arg0+0x30)+arg3, fn_8020CD40, arg4);
+    if (result == 0)
         return -1;
     interrupts = OSDisableInterrupts();
     for (;;) {
