@@ -2312,7 +2312,7 @@ void fn_8002666C(void *arg0) {
 #pragma global_optimizer off
 void fn_80026678(void *arg0) {
     void Unit_RemoveItem(s32, u8);
-    void fn_80094ABC(s32, void *, s32, void *);
+    void fn_80094ABC(s32, void *);
     void Battle_Apply(void *);
     extern u8 gUiContext[];
     extern u8 gBattle[];
@@ -2328,7 +2328,7 @@ void fn_80026678(void *arg0) {
     a0 = *(s32 *)(gUiContext + zero);
     temp_r31 = *(s32 *)(gUiContext + 4);
     bf->flag = zero;
-    fn_80094ABC(a0, temp_r4, zero, gUiContext);
+    fn_80094ABC(a0, temp_r4);
     Unit_RemoveItem(temp_r31, gUiContext[0xA]);
     Battle_Apply(gBattle);
 }
