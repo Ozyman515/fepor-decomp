@@ -761,9 +761,9 @@ case 3:
  *(u32 *)(gx+0x120)=__rlwimi(*(u32 *)(gx+0x120),arg1,21,8,10);
  break;
  }
- gx=(u8 *)__GXData;
  GXWGFifo.u8=0x61;
- GXWGFifo.u32=*(u32 *)(gx+0x120);
+ GXWGFifo.u32=*(u32 *)((u8 *)__GXData+0x120);
+ gx=(u8 *)__GXData;
  *(u32 *)(gx+0x5AC)|=3;
  *(u16 *)(gx+2)=0;
 }
