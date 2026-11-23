@@ -7379,15 +7379,15 @@ void fn_801C0ADC(void *arg0) {
         virtual void v14() = 0;
         virtual Item *get(s32) = 0;
     };
+    void *list;
     Menu *menu;
     s32 i;
     Item *item;
     void *t2;
 
-    menu = (Menu *)Ui_FindChild(arg0, 0x81, 0);
-    t2 = Ui_FindChild(arg0, 0x80, 0);
-    fn_8000D864(0, fn_801D2B04(menu));
-    menu = (Menu *)t2;
+    list = Ui_FindChild(arg0, 0x81, 0);
+    menu = (Menu *)Ui_FindChild(arg0, 0x80, 0);
+    fn_8000D864(0, fn_801D2B04(list));
     Ui_SetWidgetText(menu, gUiScrollListStrings + 0x31);
     *(u32 *)((u8 *)menu + 0x48) = 0;
     menu = (Menu *)fn_8013BC10(0, 0);
