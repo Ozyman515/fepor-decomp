@@ -1028,14 +1028,14 @@ void fn_8010671C(void *arg0) {
 
 #pragma use_lmw_stmw on
 void fn_80106728(u8 *arg0) {
-    void fn_8000C188(void);
-    void *fn_80016BDC(void *);
-    void fn_8003816C(void *, u8, u8);
+    void Process_ClearFunc(void *);
+    void *Unit_FindByName(void *);
+    void Unit_SetMapPos(void *, u8, u8);
     void fn_8004F5EC(void *, s32);
     void *fn_80107468(void *);
-    void fn_80107B54(void *, u32 *, u8);
-    u8 *fn_80107D64(void *, u8 *, u8 *, s32, s32, void *);
-    extern u16 lbl_802B14E4[];
+    void Dispos_ParseEntry(void *, u32 *, u8);
+    u8 *Unit_ResolveWarpPos(void *, u8 *, u8 *, s32, s32, void *);
+    extern u16 gUnits[];
     u8 sp8[0x68];
     u8 idx;
     void *base;
@@ -1052,32 +1052,26 @@ void fn_80106728(u8 *arg0) {
     idx = arg0[0x62];
     count = arg0[0x63];
     if (idx >= count) {
-        fn_8000C188();
+        Process_ClearFunc(arg0);
         return;
     }
     kind = arg0[0x60];
     base = *(void **)(arg0 + 0x68);
     entry = (u8 *)base + idx * 0x110;
-    if (kind == 2) {
-        goto case2;
-    }
-    if (kind >= 2) {
-        goto check4;
-    }
-    if (kind == 0) {
+    switch (kind) {
+    case 0:
+    case 3:
         goto case0;
-    }
-    if (kind >= 0) {
+    case 1:
         goto case1;
-    }
-    goto after_sw;
-check4:
-    if (kind >= 4) {
+    case 2:
+        goto case2;
+    default:
         goto after_sw;
     }
 case0:
     if ((u8)(s32)fn_80107468(entry) != 0) {
-        src = fn_80107D64(*(void **)(entry + 4), entry + 0xA, entry + 0xB, 1, count, base);
+        src = Unit_ResolveWarpPos(*(void **)(entry + 4), entry + 0xA, entry + 0xB, 1, count, base);
         dst = entry + 0xC;
         if (src != 0) {
         copy0:
@@ -1109,16 +1103,16 @@ case2:
         sp8[0x30 + i] = 0;
         *(s32 *)(sp8 + 0x48 + i * 4) = 0;
     }
-    fn_80107B54(entry, (u32 *)sp8, entry[0x10D]);
+    Dispos_ParseEntry(entry, (u32 *)sp8, entry[0x10D]);
     unit = 0;
     {
         u8 id = *(u8 *)((u8 *)obj + 0x3C);
         if (id != 0) {
             if (id != 0) {
-                unit = (u8 *)lbl_802B14E4 + (id - 1) * 0x280;
+                unit = (u8 *)gUnits + (id - 1) * 0x280;
             }
         } else if (!(entry[0x10C] & 1) && *(u32 *)sp8 != 0) {
-            unit = fn_80016BDC(*(void **)sp8);
+            unit = Unit_FindByName(*(void **)sp8);
             if (unit != 0) {
                 *(u8 *)((u8 *)obj + 0x3C) = *(u8 *)((u8 *)unit + 0x198);
             }
@@ -1129,7 +1123,7 @@ case2:
     }
     *(void **)(entry + 4) = unit;
     if (unit != 0) {
-        src = fn_80107D64(*(void **)(entry + 4), entry + 0xA, entry + 0xB, 1, count, base);
+        src = Unit_ResolveWarpPos(*(void **)(entry + 4), entry + 0xA, entry + 0xB, 1, count, base);
         dst = entry + 0xC;
         if (src != 0) {
         copy2:
@@ -1148,7 +1142,7 @@ case2:
     }
 after_sw:
     if (*(void **)(entry + 4) != 0) {
-        fn_8003816C(*(void **)(entry + 4), entry[0xA], entry[0xB]);
+        Unit_SetMapPos(*(void **)(entry + 4), entry[0xA], entry[0xB]);
     }
     if (*(void **)(entry + 4) != 0) {
         fn_8004F5EC(*(void **)(entry + 4), 0);
