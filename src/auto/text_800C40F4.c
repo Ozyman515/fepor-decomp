@@ -13410,7 +13410,7 @@ extern "C" void *fn_800DFAE0(void *arg0, void *arg1, const String *arg2, const S
     if (self->unk38 != NULL) {
         self->unk28 = fn_800DC018(self->unk38);
     } else {
-        String_AssignCStr(&self->s2, lbl_80271A30, strlen(lbl_80271A30));
+        { u32 n = strlen(lbl_80271A30); String_AssignCStr(&self->s2, lbl_80271A30, n); }
         self->unk28 = 0;
     }
     return arg0;
