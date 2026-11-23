@@ -5164,6 +5164,7 @@ void fn_801BCCC4(void *arg0) {
         Ui_RemoveChild(self, p);
     }
 }
+#pragma optimization_level reset
 #pragma optimization_level 3
 void fn_801BCD8C(void *arg0) {
     extern u8 gUiContext[];
