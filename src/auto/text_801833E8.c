@@ -4745,6 +4745,34 @@ void fn_8018D25C(void *arg0) {
 
 #pragma use_lmw_stmw on
 #pragma global_optimizer off
+static inline s32 AiItemTableIndex_inl(void *unit, void **entry) {
+    u32 *Hash_Lookup(char *);
+    u8 Unit_CanReceiveItem(void *, void **);
+    s32 Str_Cmp(s32, u32);
+    extern u8 lbl_802798D0[];
+    u32 *tbl = Hash_Lookup((char *)((u32)lbl_802798D0 + 0x1D));
+    s32 dist;
+    s32 val;
+    u32 t;
+    if (!Unit_CanReceiveItem(unit, entry)) {
+        return -1;
+    }
+    dist = 0;
+    while ((t = *tbl) != 0) {
+        if (*(u32 *)entry != 0) {
+            val = *(s32 *)*(void **)entry;
+        } else {
+            val = 0;
+        }
+        if (Str_Cmp(val, t) == 0) {
+            return dist;
+        }
+        tbl++;
+        dist++;
+    }
+    return -1;
+}
+
 u8 fn_8018D294(void *arg0, s32 arg1) {
     u8 Status_Test(void *, s32);
     void fn_8002F728(void *);
@@ -4806,32 +4834,7 @@ u8 fn_8018D294(void *arg0, s32 arg1) {
             while ((s8)slot < 8) {
                 entry = Unit_GetItemSlot(unit, slot);
                 if (*(u32 *)entry != 0) {
-                    tbl = Hash_Lookup((char *)((u32)lbl_802798D0 + 0x1D));
-                    if (!Unit_CanReceiveItem(arg0, entry)) {
-                        dist = -1;
-                    } else {
-                        dist = 0;
-                        goto lbl_check;
-                    lbl_body:
-                        if (*(u32 *)entry != 0) {
-                            val = *(s32 *)*(void **)entry;
-                        } else {
-                            val = 0;
-                        }
-                        if (Str_Cmp(val, t) == 0) {
-                            goto lbl_done;
-                        }
-                        tbl++;
-                        dist++;
-                    lbl_check:
-                        t = *tbl;
-                        if (t != 0) {
-                            goto lbl_body;
-                        }
-                        dist = -1;
-                    lbl_done:
-                        ;
-                    }
+                    dist = AiItemTableIndex_inl(arg0, entry);
                     if (dist >= 0) {
                         foundSlot = slot;
                         foundDist = dist;
@@ -4849,10 +4852,10 @@ u8 fn_8018D294(void *arg0, s32 arg1) {
         i++;
     }
     if (bestDist != 0x7FFFFFFF) {
-        register s8 bx;
-        register s8 by;
-        bx = *(u8 *)((u8 *)bestUnit + 0x19E);
-        by = *(u8 *)((u8 *)bestUnit + 0x19F);
+        s32 bx;
+        s32 by;
+        bx = *(s8 *)((u8 *)bestUnit + 0x19E);
+        by = *(s8 *)((u8 *)bestUnit + 0x19F);
         fn_8010F3F4(arg0, bx, by, &sp12, &sp10);
         *(u16 *)((u8 *)arg0 + 0x258) =
             *(u16 *)((u8 *)arg0 + 0x258) + 1;
