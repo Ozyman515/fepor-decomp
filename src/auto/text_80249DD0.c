@@ -4728,52 +4728,39 @@ s16 fn_802537F8(SynthVmState *arg0, u32 arg1, s32 arg2) {
     return (s16)val;
 }
 
+static inline s16 fn_80253860_VarGet(SynthVmState *arg0, u32 ctrl, u8 index) {
+    u16 fn_80260F18(SynthVmState *, s32);
+    extern s32 lbl_8034CB74[];
+    s32 val;
+    u8 idx;
+
+    if (ctrl != 0) {
+        val = (u16)fn_80260F18(arg0, index);
+    } else {
+        idx = (u8)(index & 0x1F);
+        if (idx < 16) {
+            val = arg0->regs[idx];
+        } else {
+            val = lbl_8034CB74[idx - 16];
+        }
+    }
+    return (s16)val;
+}
+
 void fn_80253860(SynthVmState *arg0, u32 *arg1, u8 op) {
-    u16 fn_80260F18(SynthVmState *);
     void fn_80261014(SynthVmState *, s32, s16);
     extern s32 lbl_8034CB74[];
     s32 res;
     s32 lhs;
     s16 rhs;
-    u32 v1;
-    u32 raw;
-    u32 a;
-    u32 w;
     u8 idx;
-    u8 b0;
-    u8 b1;
     u8 b2;
 
-    b0 = arg1[1];
-    a = arg1[0];
-    if (a >> 24) {
-        v1 = fn_80260F18(arg0);
-    } else {
-        idx = b0 & 0x1F;
-        if (idx < 16) {
-            v1 = arg0->regs[idx];
-        } else {
-            v1 = lbl_8034CB74[idx - 16];
-        }
-    }
-    lhs = (s16)v1;
-
+    lhs = fn_80253860_VarGet(arg0, (u8)(arg1[0] >> 24), (u8)arg1[1]);
     if (op == 4) {
         rhs = (s16)(arg1[1] >> 8);
     } else {
-        w = arg1[1];
-        b1 = (w >> 16) & 0xFF;
-        if ((w >> 8) & 0xFF) {
-            raw = fn_80260F18(arg0);
-        } else {
-            idx = b1 & 0x1F;
-            if (idx < 16) {
-                raw = arg0->regs[idx];
-            } else {
-                raw = lbl_8034CB74[idx - 16];
-            }
-        }
-        rhs = (s16)raw;
+        rhs = fn_80253860_VarGet(arg0, (u8)(arg1[1] >> 8), (u8)(arg1[1] >> 16));
     }
 
     switch (op) {
