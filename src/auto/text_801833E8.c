@@ -11347,7 +11347,6 @@ void fn_80199A60(void *arg0, s32 arg1) {
     extern u8 lbl_80367AE8;
     extern u8 lbl_80367AEA;
     u8 temp;
-    u8 *p2;
 
     Stream_Read(arg1, 4, arg0);
     *(u8 *)((u8 *)arg0 + 4) = Stream_ReadU8(arg1);
@@ -11370,8 +11369,8 @@ void fn_80199A60(void *arg0, s32 arg1) {
         }
         fn_80145E9C((*(u8 *)((u8 *)arg0 + 2) >> 2) & 3);
     } else {
-        p2 = (u8 *)arg0 + 2;
-        *p2 = __rlwimi(*p2, 0, 2, 28, 29);
+        struct B { u8 pad[2]; u8 hi : 4; u8 mode : 2; u8 lo : 2; };
+        ((struct B *)arg0)->mode = 0;
         fn_80145E9C((*(u8 *)((u8 *)arg0 + 2) >> 2) & 3);
     }
     fn_801C7C18(*(u8 *)((u8 *)arg0 + 6), *(u8 *)((u8 *)arg0 + 7), *(u8 *)((u8 *)arg0 + 5));
