@@ -4887,8 +4887,6 @@ void fn_80253BCC(SynthVmState *arg0, void *arg1) {
     u32 raw;
     u8 index;
     s32 result;
-    u32 *p;
-    u32 *dummy;
 
     bits = *(u32 *)((u8 *)arg1 + 4);
     index = (bits >> 8) & 31;
@@ -4936,9 +4934,7 @@ void fn_80253BCC(SynthVmState *arg0, void *arg1) {
             state = (u8 *)gSynthVoices + (u8)result * 0x458;
             if (state[0x440] < 4) {
                 state[0x440]++;
-                p = (u32 *)state + state[0x442];
-                dummy = *&p;
-                dummy[0x111] = value;
+                ((u32 *)(state + 0x444))[state[0x442]] = value;
                 state[0x442] = (state[0x442] + 1) & 3;
                 if (state[0x68] != 0 && *(u32 *)(state + 0x58) != 0) {
                     *(u32 *)(state + 0x38) = *(u32 *)(state + 0x64);
