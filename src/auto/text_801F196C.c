@@ -1842,32 +1842,28 @@ void fn_801F5D14(void *arg0) {
 #pragma global_optimizer on
 void fn_801F5DD0(void *arg0)
 {
+    void Process_Goto(void *, s32);
+    void Process_ClearFunc(void *);
     u8 *object;
     s32 r;
 
     object = (u8 *)arg0;
 
     r = GBAGetStatus(*(u32 *)(object + 0x38), object + 0x4B);
-    if (r == 0) {
-        r = object[0x4B];
-        if ((r & 0x30) != 0x30) {
-            fn_8000C070(arg0, 2);
-            return;
-        }
+    if (r != 0 || ((r = object[0x4B]) & 0x30) != 0x30) {
+        Process_Goto(arg0, 2);
+        return;
     }
     if (r & 2) {
         return;
     }
 
-    if (GBAWrite(*(u32 *)(object + 0x38), object + 0x44, object + 0x4B) == 0) {
-        r = object[0x4B];
-        if ((r & 0x30) != 0x30) {
-            fn_8000C070(arg0, 2);
-            return;
-        }
+    if (GBAWrite(*(u32 *)(object + 0x38), object + 0x44, object + 0x4B) != 0 || (object[0x4B] & 0x30) != 0x30) {
+        Process_Goto(arg0, 2);
+        return;
     }
 
-    fn_8000C188(arg0);
+    Process_ClearFunc(arg0);
 }
 
 #pragma opt_common_subs off
